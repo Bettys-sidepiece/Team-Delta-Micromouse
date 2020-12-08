@@ -32,6 +32,8 @@ byte DRIVE;
 
 word INIT_FREQ = 0x4E20; //10 ms period (20000 decimal)
 word NOM_SPEED = 0x2000; // 8038 decimal (DC: 40%)
+word HI_SPEED = 0x1770: // 6000 decimal (DC: 30%)
+word LO_SPEED = 0x2710: // 
 
 word PW_LEFT = 0x2000; // 8038 decimal (DC: 40%)
 word PW_RIGHT = 0x2000; // 8038 decimal (DC: 40%)
@@ -172,9 +174,13 @@ interrupt 13 void TPM2C1SC_int()
 
 void obstacle_avoidance(void)
 {
-    if (toggle() == 1)
+    if (toggle_l() == 1)
         {
             revleft();
+        }
+    if (toggle_r() == 1)
+        {
+            revright();
         }
 
     if ((PTDD & 0b11000000) != 0)
@@ -195,11 +201,22 @@ void obstacle_avoidance(void)
         }
 } 
 
-int toggle(){
+int toggle_l(){
 
-     if ((PTDD & 0b00001000) != 0b00001000 ||(PTDD & 0b00000100) != 0b00000100)
+     if ((PTDD & 0b00001000) != 0b00001000 )
         {
-          if ((PTDD & 0b00001000) == 0 ||(PTDD & 0b00000100) == 0)
+          if ((PTDD & 0b00001000) == 0)
+            {
+                return 0;
+            } else { return 1;}
+        }
+}
+
+int toggle_t(){
+
+     if ((PTDD & 0b00000100) != 0b00000100)
+        {
+          if ((PTDD & 0b00000100) == 0)
             {
                 return 0;
             } else { return 1;}
