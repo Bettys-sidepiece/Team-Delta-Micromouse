@@ -212,7 +212,7 @@ int toggle_l(){
         }
 }
 
-int toggle_t(){
+int toggle_r(){
 
      if ((PTDD & 0b00000100) != 0b00000100)
         {
