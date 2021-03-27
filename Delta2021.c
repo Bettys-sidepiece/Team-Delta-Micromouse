@@ -24,7 +24,7 @@ void turnleft(void);
 void turnright(void);
 void iravoidl(void);
 void iravoidr(void);
-void speedcon(void);
+void speedcontroller(void);
 int toggle(void);
 void obstacle_avoidance(void);
  
@@ -227,7 +227,7 @@ int toggle_r(){
         }
 }
 
-void speedcon(void)
+void speedcontroller(void)
 {
  
     if (DIFF_RIGHT != DIFF_LEFT)
