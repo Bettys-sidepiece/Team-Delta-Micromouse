@@ -44,26 +44,6 @@ word PW_RIGHT = 0x2000; // 8038 decimal (DC: 40%)
 word PW_MAX = 0x3000; // 12288 decimal (DC: 61.44%)
 word PW_MIN = 0x1000; // 4096 decimal (DC: 20.48%)
 
-word LOW_SPEED = 0x1B58; //7000 decimal (DC: 35%)
-//word PW_LEFT = 0x1B58; // 7000 decimal (DC: 40%) // commented for testing
-//word PW_RIGHT = 0x1B58; // 7000 decimal (DC: 40%)
-//word PW_MAX = 0x3000; // 12288 decimal (DC: 61.44%)
-//word PW_MIN = 0x1000; // 4096 decimal (DC: 20.48%)
-
-
-word HI_FREQ = 0x2710; //5 ms period (10000 decimal)
-word HF_NOM_SPEED = 0x1388; // 5000 decimal (DC: 50%)
-//word PW_LEFT = 0x1388; // FB3 decimal (DC: 50%) // commented for testing
-//word PW_RIGHT = 0x1388; // FB3 decimal (DC: 50%)
-//word PW_MAX = 0x1800; //  6144 decimal (DC: 61.44%)
-//word PW_MIN = 0x800; //  2048 decimal (DC: 20.48%)
-
-word HF_HI_SPEED = 0x1770; //6000 dec (DC:60%)
-//word PW_LEFT = 0xF; // FB3 decimal (DC: 60%) // commented for testing
-//word PW_RIGHT = 0xFA0; // FB3 decimal (DC: 60%)
-//word PW_MAX = 0x1800; //  6144 decimal (DC: 61.44%)
-//word PW_MIN = 0x800; //  2048 decimal (DC: 20.48%)
-
 word CORR = 0;
  
 word COUNTER;
@@ -102,15 +82,15 @@ void main(void)
     TPM1C2V = NOM_SPEED; // set the channel 2 to :
  
     TPM2SC = 0x08;   //select bus clock for TPM2, no TOV
-    TPM2C0SC = 0x44; //turn on edge interrupt for TPM2 C0
+    TPM2C0SC = 0x44; //turn on edge interrupt for TPM2 C0 
     TPM2C1SC = 0x44; //turn on edge interrupt for TPM2 C1
  
     EnableInterrupts; // enable interrupts
  
     for (;;)
     {
+     
         DRIVE = FWD;
-
         obstacle_avoidance();
 
     } // loop forever
@@ -177,17 +157,20 @@ interrupt 13 void TPM2C1SC_int()
 }
 
 void obstacle_avoidance(void)
+ // Obstacle avoidance function takes inputs from the touch bar sensor and infrared sensor
+ // and determines in the micromouse should either turn right or left or reverse and turn either right 
+ // or left.
 {
-    if (toggle_l() == 1)
+    if (toggle_l() == 1) // checks if the toggle_l (left microswitch) is high
         {
             revleft();
         }
-    if (toggle_r() == 1)
+    if (toggle_r() == 1) //checks if the toggle_l (left microswitch) is high
         {
             revright();
         }
 
-    if ((PTDD & 0b11000000) != 0)
+    if ((PTDD & 0b11000000) != 0) // checks if the bits in port D are low, if not the if statement is entered.
         {
             if ((PTDD_PTDD7 == 0) & (PTDD_PTDD6 == 1))
             {
@@ -197,17 +180,13 @@ void obstacle_avoidance(void)
             {
                 iravoidr();
             }
-            
-             if ((PTDD_PTDD7 == 1) & (PTDD_PTDD6 == 1))
-            {
-                iravoidl();
-            }
         }
 } 
 
+//This function was included to correct the incorrectly wired switches
 int toggle_l(){
-
-     if ((PTDD & 0b00001000) != 0b00001000 )
+ 
+     if ((PTDD & 0b00001000) != 0b00001000 ) // checks if bit 3 is low
         {
           if ((PTDD & 0b00001000) == 0)
             {
@@ -216,9 +195,10 @@ int toggle_l(){
         }
 }
 
+//This function was included to correct the incorrectly wired switches
 int toggle_r(){
 
-     if ((PTDD & 0b00000100) != 0b00000100)
+     if ((PTDD & 0b00000100) != 0b00000100)// checks if bit 2 is low
         {
           if ((PTDD & 0b00000100) == 0)
             {
