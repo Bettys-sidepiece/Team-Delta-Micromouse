@@ -56,3 +56,5 @@ TEAM DELTA MICROMOUSE
 <!-- wp:paragraph {"align":"justify"} -->
 <p class="has-text-align-justify">As is with programming there are various ways to do a task, an alternative to using if statements to detect sensor inputs would be to use an edge enabled keyboard interrupt, however you would have to disable the interrupt from within the function to ensure that no interrupts are missed while performing the task.</p>
 <!-- /wp:paragraph -->
+
+
