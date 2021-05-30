@@ -102,7 +102,7 @@ interrupt 11 void TPM1SC_overflow()
     TPM1SC_TOF = bitClear;
     PTFD = DRIVE; // turn on motors as configured by DRIVE (port A switches).
  
-    speedcon();
+    speedcontroller();
  
     if (COUNTER != 0)
     {
