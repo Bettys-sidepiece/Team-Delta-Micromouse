@@ -1,6 +1,7 @@
 // Micromouse control program ( 2020 ) 
 // Author: Dr. Timothy Davies 
-// Modified By: TEAM DELTA
+// Modified By: Kuzipa Mumba
+
 
 #include <hidef.h>      // for EnableInterrupts macro
 #include "derivative.h" // include peripheral declarations
